@@ -1,5 +1,3 @@
-"use client"
-
 import '@styles/globals.css';
 import NavBar from '@components/NavBar';
 import Provider from '@components/Provider';
@@ -26,3 +24,5 @@ const RootLayout = ({ children }) => {
         </html>
     )
 };
+
+export default RootLayout;
