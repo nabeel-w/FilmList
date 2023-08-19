@@ -45,4 +45,4 @@ const update=async(req)=>{
     }
 }
 
-export {handler as POST, update as PATCH}
+export { handler as POST, update as PATCH }

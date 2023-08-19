@@ -13,7 +13,21 @@ const MoviePage = () => {
   const [provide, setProvide] = useState({});
   const [ error,setError ]=useState(false)
   useEffect(() => {
-    if(isUserLoggedIn?.user.movies.find(movie=>movie===movieId)){setDisable(true)}
+    const option={
+      method: 'POST',
+      body:JSON.stringify({
+        userId:isUserLoggedIn?.user.id
+      })
+    }
+    fetch('/api/watchlist/get', option)
+    .then(res=>res.json())
+    .then(data=>{
+      const movieData=data.movies;
+      console.log(movieData);
+      if(movieData.find(movie=>movie.id===movieId)){ setDisable(true);}
+    })
+    .catch(err => { console.log(err); });
+    //if(isUserLoggedIn?.user.movies.find(movie=>movie===movieId)){setDisable(true)}
     fetch(`/api/getMovie?id=${movieId}`)
       .then(res => res.json())
       .then(data => { setData(data.movieData); setProvide(data.providers.flatrate) })

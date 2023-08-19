@@ -21,6 +21,7 @@ const handler = NextAuth({
             async authorize(credentials) {
                 await connectToDB();
                 if (credentials.signUp) {
+                    console.log(credentials);
                     try {
                         const userFound= await User.findOne({email:credentials.email});
                         if(userFound) return null;
@@ -54,7 +55,7 @@ const handler = NextAuth({
         async session({ session }) {
             const sessionUser = await User.findOne({ email: session.user.email });
             session.user.id = sessionUser._id.toString();
-            session.user.movies=sessionUser.movies;
+            //session.user.movies=sessionUser.movies;
 
             return session;
         },

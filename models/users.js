@@ -3,7 +3,8 @@ import { Schema, model, models } from "mongoose";
 const filmSchema= new Schema({
     id:{
         type:String,
-        unique:true
+        unique: false,
+        sparse:true
     },
     watched:{
         type:Boolean
@@ -23,7 +24,9 @@ const userSchema = new Schema({
         type:String
     },
     movies:[{
-        type:filmSchema
+        type:filmSchema,
+        sparse:true,
+        unique:false
     }]
 });
 
