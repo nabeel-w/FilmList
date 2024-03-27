@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { redirect } from "next/dist/server/api-utils";
+import Image from 'next/image'
 
 const genre = [
   {
@@ -124,12 +124,10 @@ const MovieCard = ({ props, isList, isDisable=false }) => {
     .catch(err=>{console.log("Internal Server Error")})
   }
 
-  function handle(){}
-
   return (
     <Link href={link}>
       <div className={disable?"max-w-sm rounded overflow-hidden shadow-lg opacity-50":"max-w-sm rounded overflow-hidden shadow-lg"} >
-        <img className="w-full" src={imagePath} alt="Movie Poster" />
+        <Image className="w-full" width={500} height={500} loading="lazy" src={imagePath} alt="Movie Poster" />
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">{props.title}</div>
           <p className=' text-sm ms-1 font-semibold text-gray-500'>{date[0]}</p>
@@ -151,7 +149,7 @@ const MovieCard = ({ props, isList, isDisable=false }) => {
             )}
             
             <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{rating}</span>
-            {isList&&<button className={disable?"green_btn ms-3 me-2":"black_btn ms-3 me-2"} onClick={!disable?handleComplete:handle}><CheckCircleOutlineIcon /></button>}
+            {isList&&<button className={disable?"green_btn ms-3 me-2":"black_btn ms-3 me-2"} onClick={!disable && handleComplete}><CheckCircleOutlineIcon /></button>}
         </div>
         <div className="px-6 pt-4 pb-2 ">
           {Object.values(genreNames).map(genre => <span key={genre} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{genre}</span>)}

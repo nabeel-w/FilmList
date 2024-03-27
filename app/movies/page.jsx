@@ -3,6 +3,8 @@ import { useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react'
 import Error from '@components/Error';
+import LoadingPage from '../../components/LoadingPage'
+import Image from 'next/image'
 
 const MoviePage = () => {
   const searchParams = useSearchParams();
@@ -11,8 +13,11 @@ const MoviePage = () => {
   const [ disable, setDisable ]=useState(false);
   const [data, setData] = useState(false);
   const [provide, setProvide] = useState({});
-  const [ error,setError ]=useState(false)
+  const [ error,setError ]=useState(false);
+  const [Loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     const option={
       method: 'POST',
       body:JSON.stringify({
@@ -27,14 +32,19 @@ const MoviePage = () => {
       if(movieData.find(movie=>movie.id===movieId)){ setDisable(true);}
     })
     .catch(err => { console.log(err); });
-    //if(isUserLoggedIn?.user.movies.find(movie=>movie===movieId)){setDisable(true)}
     fetch(`/api/getMovie?id=${movieId}`)
       .then(res => res.json())
-      .then(data => { setData(data.movieData); setProvide(data.providers.flatrate) })
+      .then(data => {
+        if(data.movieData===undefined){
+          setError("Invalid Movie ID");
+          return;
+        } 
+        setData(data.movieData);
+        setLoading(false);
+        setProvide(data.providers.flatrate); })
       .catch(err => { console.log(err); });
   }, [isUserLoggedIn])
 
-  //console.log(provide);
 
   function handleWatchlist(){
     if(!isUserLoggedIn){
@@ -64,14 +74,15 @@ const MoviePage = () => {
   const hour = Math.floor(data.runtime / 60);
   const mins = data.runtime % 60
 
-  //console.log(genres);
 
   return (
     <>
     {error&&<div className='w-[100%] mb-4'><Error err={error} setError={setError}/></div>}
+    {Loading ?(<LoadingPage />)
+    :
     <div className='sm:flex sm:flex-cols-2 grid grid-cols-1 gap-5 bg-white rounded-md p-8'>
       <div className='sm:w-[50%] w-[90%]'>
-        <img src={imageUrl} alt="Movie Poster" className='w-full rounded shadow-lg mb-3' />
+        <Image src={imageUrl} alt="Movie Poster" width={800} height={900} loading='lazy' className='w-full rounded shadow-lg mb-3' />
         <div className='flex flex-col gap-2'>
           {provide ? Object.values(provide).map(icon => {
             console.log(icon);
@@ -103,6 +114,7 @@ const MoviePage = () => {
         :<button className='black_btn mt-10 sm:ms-2 mx-auto' onClick={handleWatchlist}>{isUserLoggedIn?"Add to Watchlist":"Login For Watchlist"}</button>}
       </div>
     </div>
+}
     </>
   )
 }
