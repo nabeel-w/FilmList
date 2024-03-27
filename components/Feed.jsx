@@ -65,7 +65,7 @@ const Feed = () => {
 
     return (
         <>
-        <div className='w-full relative p-5 mt-3 sm:mb-0 mb-3 z-[-10]'>
+        <div className='w-full relative p-5 mt-3 sm:mb-0 mb-3 z-0'>
             <input type="text" className='search_input' placeholder='Search Movie' onChange={handleChange} onKeyDown={onKeyDown} ref={targetRef} onFocus={scrollToTarget} />
             <button className='absolute inset-y-0 right-0 px-10 py-2' onClick={handleSubmit}>
                 <FaSearch />

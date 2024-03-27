@@ -51,7 +51,7 @@ const LoginModal = ({ visible, setVisible }) => {
     }
 
     return (
-        <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center'>
+        <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-10'>
             <div className='md:w-[350px] w-[90%]'>
                 <div className='bg-white flex flex-col p-2 rounded'>
                     <button role='button' className='text-black text-xl place-self-end pe-3 py-1' onClick={() => { setVisible(false) }}>X</button>
